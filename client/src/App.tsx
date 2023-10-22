@@ -3,7 +3,6 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
-import { ConnectionManager } from './components/connection/ConnectionManager';
 import { ConnectionState } from './components/connection/ConnectionState';
 import { RouterView } from './router/RouterView';
 import { socket } from './socket';
@@ -39,7 +38,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ConnectionState isConnected={isConnected} />
-        <ConnectionManager />
         <RouterView />
       </BrowserRouter>
     </QueryClientProvider>

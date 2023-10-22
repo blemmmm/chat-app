@@ -3,5 +3,9 @@ type Props = {
 };
 
 export function ConnectionState({ isConnected }: Props) {
-  return <p>State: {'' + isConnected}</p>;
+  return (
+    <span className="fixed bottom-0 left-1 text-xs text-gray-400">
+      WebSocket connection: {'' + isConnected}
+    </span>
+  );
 }
