@@ -1,49 +1,48 @@
-import { useEffect, useState } from 'react';
-import reactLogo from '../../assets/react.svg';
-import viteLogo from '../../../public/vite.svg';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { socket } from '../../socket';
+import { Events } from '@/components/connection/Events';
+import { useEffect, useState } from 'react';
 
 const HomeView = () => {
-  const [count, setCount] = useState(0);
-  async function fetch_session() {
-    const response = await fetch('http://localhost:3000', {
-      method: 'GET',
-      credentials: 'include',
-    });
+  const [events, setEvents] = useState<Array<string>>([]);
+  const [message, setMessage] = useState('');
 
-    const data = await response.json();
-
-    console.log(data);
-
-    return data;
-  }
+  const sendMessage = (message: string) => {
+    socket.emit('chat', message);
+    setMessage('');
+  };
 
   useEffect(() => {
-    fetch_session();
-  }, []);
+    socket.on('chat', (data: string) => {
+      setEvents((previous) => [...previous, data]);
+    });
+
+    return () => {
+      socket.off('chat');
+    };
+  }, [events]);
 
   return (
     <div>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <Button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      <Events events={events} />
+      <div className="flex items-center justify-between">
+        <Input
+          type="text"
+          placeholder="Enter your message"
+          autoComplete="off"
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              sendMessage(message);
+            }
+          }}
+          value={message}
+        />
+        <Button type="button" onClick={() => sendMessage(message)}>
+          Send
         </Button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   );
 };
