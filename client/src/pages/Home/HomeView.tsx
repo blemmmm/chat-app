@@ -11,6 +11,9 @@ const HomeView = () => {
   const [message, setMessage] = useState('');
   const [user, setUser] = useState('');
 
+  const getUser = localStorage.getItem('user');
+  const parseUser = getUser ? JSON.parse(getUser) : undefined;
+
   const saveUser = () => {
     if (user !== '') {
       localStorage.setItem('user', JSON.stringify({ user: user }));
@@ -36,8 +39,6 @@ const HomeView = () => {
 
   useEffect(() => {
     if (user === '') {
-      const getUser = localStorage.getItem('user');
-      const parseUser = getUser ? JSON.parse(getUser) : undefined;
       setUser(parseUser ? parseUser.user : '');
     }
   }, []);
@@ -70,7 +71,9 @@ const HomeView = () => {
           />
           <Button
             type="button"
-            onClick={() => sendMessage({ user: user, message: message })}
+            onClick={() =>
+              sendMessage({ user: user || 'Anonymous', message: message })
+            }
           >
             Send
           </Button>
