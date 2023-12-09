@@ -15,13 +15,13 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const server = createServer(app);
-const io = new Server(server, { cors: 'https://groufie.blem.dev:5173' });
+const io = new Server(server, { cors: 'https://groufie.blem.dev' });
 
 // Define routes and middleware here
 
 app.use(
   cors({
-    origin: 'https://groufie.blem.dev:5173', // Replace with your client's URL
+    origin: 'https://groufie.blem.dev', // Replace with your client's URL
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Allow cookies and authentication headers
   }),
