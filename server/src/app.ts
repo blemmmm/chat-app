@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
-import { Request, Response } from 'express';
+
 import { Socket } from 'socket.io';
 
 const { createServer } = require('node:http');
-const { join } = require('node:path');
 const { Server } = require('socket.io');
 
 /* eslint-disable import/no-extraneous-dependencies */
@@ -27,9 +26,7 @@ app.use(
   }),
 );
 
-app.get('/', (req: Request, res: Response) => {
-  res.sendFile(join(__dirname.replace('server', ''), '../client/index.html'));
-});
+app.use(express.static('../../client/dist/'));
 
 server.listen(port, () => {
   // eslint-disable-next-line no-console
