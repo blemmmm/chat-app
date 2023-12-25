@@ -22,3 +22,16 @@ groufie.blem.dev {
     protocols tls1.3
   }
 }
+
+imagehippo.blem.dev {
+  header {
+    Strict-Transport-Security "max-age=63072000"
+    defer
+  }
+  handle {
+    reverse_proxy server:3001
+  }
+  tls pera.blessly@gmail.com {
+    protocols tls1.3
+  }
+}
